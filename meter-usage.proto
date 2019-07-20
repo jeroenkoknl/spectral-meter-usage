@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package main;
+
+service MeterUsage {
+  rpc GetMeasurements (GetMeasurementsRequest) returns (stream Measurement) {}
+}
+
+message Measurement {
+    int32 timestamp = 1;
+    int32 metervalue = 2;
+}
+
+message GetMeasurementsRequest {}
