@@ -1,13 +1,14 @@
 FROM golang:alpine as builder
-RUN mkdir /build 
-ADD . /build/
-WORKDIR /build 
 RUN apk add --no-cache git mercurial
-RUN go get -d -v ./...
+RUN go get -u github.com/golang/dep/...
+RUN mkdir /go/src/app 
+ADD . /go/src/app/
+WORKDIR /go/src/app
+RUN dep ensure
 RUN go build -o main .
 FROM alpine
 RUN adduser -S -D -H -h /app appuser
 USER appuser
-COPY --from=builder /build/main /app/
+COPY --from=builder /go/src/app/main /app/
 WORKDIR /app
 CMD ["./main"]
