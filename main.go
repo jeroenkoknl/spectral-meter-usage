@@ -2,7 +2,9 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 )
@@ -15,12 +17,20 @@ type server struct{}
 
 // GetMeasurements implements MeterUsageServer
 func (s *server) GetMeasurements(request *GetMeasurementsRequest, stream MeterUsage_GetMeasurementsServer) error {
-	measurement := Measurement{
-		Timestamp:  1234,
-		Metervalue: 5678,
-	}
-	if err := stream.Send(&measurement); err != nil {
-		return err
+	log.Print("GetMeasurements")
+
+	// Random meter values for every minute the last 24 hours
+	metervalue := rand.Int31()
+	for minutes := -24 * 60; minutes < 0; minutes++ {
+		timestamp := time.Now().Add(time.Minute * time.Duration(minutes))
+		metervalue += rand.Int31n(100)
+		measurement := Measurement{
+			Timestamp:  timestamp.Unix(),
+			Metervalue: metervalue,
+		}
+		if err := stream.Send(&measurement); err != nil {
+			return err
+		}
 	}
 	return nil
 }
