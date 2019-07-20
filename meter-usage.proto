@@ -7,7 +7,7 @@ service MeterUsage {
 }
 
 message Measurement {
-    int32 timestamp = 1;
+    int64 timestamp = 1;
     int32 metervalue = 2;
 }
 
