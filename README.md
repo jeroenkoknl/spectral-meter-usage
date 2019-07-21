@@ -64,7 +64,7 @@ This microservice is written in Go because of two reasons:
 
 ## Docker
 
-Even though I have not been able to fully automate the build and deployment process, I have created a [Dockerfile](./Dockerfile) that builds the application.
+Even though I have not been able to fully automate the build and deployment process, I have created a [Dockerfile](./Dockerfile) that builds the application and allows you to run it.
 
 To create a Docker image you could run the following command: 
 
